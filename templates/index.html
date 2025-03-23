@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat with Bot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #343541;
+            color: #d1d5db;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .chat-container {
+            width: 100%;
+            max-width: 800px;
+            height: 90%;
+            background: #444654;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        .messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            border-bottom: 1px solid #555;
+        }
+        .messages div {
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        .messages .user {
+            text-align: right;
+            color: #10b981;
+        }
+        .messages .bot {
+            text-align: left;
+            color: #60a5fa;
+        }
+        .input-container {
+            display: flex;
+            padding: 10px;
+            background: #40414f;
+            border-top: 1px solid #555;
+        }
+        .input-container input {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            background: #555;
+            color: #d1d5db;
+            font-size: 16px;
+        }
+        .input-container input:focus {
+            outline: none;
+            background: #666;
+        }
+        .input-container button {
+            margin-left: 10px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            background: #10b981;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .input-container button:hover {
+            background: #0f9b76;
+        }
+
+        /* Responsive Design for Mobile */
+        @media (max-width: 768px) {
+            .chat-container {
+                height: 100%;
+                border-radius: 0;
+            }
+            .messages {
+                padding: 10px;
+            }
+            .input-container input {
+                font-size: 14px;
+                padding: 8px;
+            }
+            .input-container button {
+                font-size: 14px;
+                padding: 8px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="messages" id="messages"></div>
+        <div class="input-container">
+            <input type="text" id="userInput" placeholder="Type your message here..." onkeydown="handleKeyPress(event)">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+    <script>
+        async function sendMessage() {
+            const userInput = document.getElementById("userInput").value;
+            if (!userInput) return;
+            const messages = document.getElementById("messages");
+            messages.innerHTML += `<div class="user"><strong>You:</strong> ${userInput}</div>`;
+            document.getElementById("userInput").value = "";
+            const response = await fetch("/chat", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ message: userInput })
+            });
+            const data = await response.json();
+            messages.innerHTML += `<div class="bot"><strong>Bot:</strong> ${data.response}</div>`;
+            messages.scrollTop = messages.scrollHeight;
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === "Enter") {
+                sendMessage();
+            }
+        }
+    </script>
+</body>
+</html>

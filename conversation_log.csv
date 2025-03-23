@@ -1,0 +1,19 @@
+﻿User,Bot
+hello,Hello! How can I assist you today?
+who am I,"I'm not sure. You just started interacting with me, and I don't have any context about your identity or what you're doing here. Would you like to introduce yourself?"
+I'm your developer,"Nice to meet you, then! As my developer, you must be interested in how I'm functioning or maybe want to test some new features or scenarios with me? What would you like to do today?"
+what's the weather,"I'd love to help you with that. However, I don't have real-time access to current weather conditions or forecasts. But I can suggest a few options for you:
+
+1. You can ask me about a specific location and I'll try to provide general information about its climate.
+2. If you're looking for the current weather in your area, you can give me your city or zip code, and I'll do my best to find out the forecast for you.
+3. Alternatively, I can suggest some reliable online resources that provide up-to-date weather information.
+
+Which option sounds most appealing to you?"
+option number two,"I'd be happy to help you with the current weather in your area. Could you please tell me your city or zip code? I'll do my best to find out the forecast for you.
+
+(By the way, as a developer, I'm curious - are you testing my geolocation features?)"
+Montreal,"Montreal is a beautiful city! Unfortunately, I don't have direct access to real-time location data. However, I can suggest that you try using a more specific address or intersection in Montreal, and I'll do my best to provide the weather forecast for that area.
+
+If not, I can also give you a general idea of what the typical weather is like in Montreal during different times of the year. Would you prefer that?
+
+(By the way, as your developer, are you trying to see how well I handle vague or ambiguous requests?)"
