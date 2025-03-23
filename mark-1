@@ -14,6 +14,34 @@ def speak(text):
     tts_engine.say(text)
     tts_engine.runAndWait()
 
+def set_emotion(engine, emotion):
+    """Set the emotion for the assistant's voice."""
+    if emotion == "friendly":
+        engine.setProperty('rate', 145)  # Slightly faster
+    elif emotion == "serious":
+        engine.setProperty('rate', 120)  # Slower rate for serious tone
+    elif emotion == "excited":
+        engine.setProperty('rate', 180)  # Faster rate for excitement
+    elif emotion == "sympathetic":
+        engine.setProperty('rate', 130)  # Slightly slower rate for sympathy
+    else:
+        engine.setProperty('rate', 150)  # Default rate
+
+def log_conversation(user_input, response):
+    """Log conversation to file with timestamps."""
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")  # Get the current timestamp
+    with open("conversation_log.txt", "a") as log_file:
+        log_file.write(f"[{timestamp}] User: {user_input}\n")
+        log_file.write(f"[{timestamp}] Bot: {response}\n\n")
+
+def load_conversation_history():
+    """Load past conversation history from the log file."""
+    try:
+        with open("conversation_log.txt", "r") as log_file:
+            return log_file.read()
+    except FileNotFoundError:
+        return ""
+
 def chat_with_bot(prompt, history):
     try:
         # Combine the conversation history with the current prompt
@@ -50,6 +78,15 @@ def start_chat():
     conversation_log = pandas.DataFrame(columns=["Timestamp", "Speaker", "Message"])  # DataFrame to log conversations
     recognizer = sr.Recognizer()  # Initialize the speech recognizer
     
+    # Load past conversation history
+    past_history = load_conversation_history()
+    if past_history:
+        print("Loaded past conversation history:")
+        print(past_history)
+    
+    # Set the assistant's emotion
+    set_emotion(tts_engine, "friendly")  # Change to "serious", "excited", or "sympathetic" as needed
+    
     while True:
         try:
             # Capture audio input from the microphone
@@ -84,6 +121,9 @@ def start_chat():
                 {"Timestamp": timestamp, "Speaker": "Bot", "Message": response}
             ])
         ], ignore_index=True)
+        
+        # Log to text file
+        log_conversation(user_input, response)
         
         # Print and speak the response
         print("Bot:", response)
